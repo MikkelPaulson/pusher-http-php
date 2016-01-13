@@ -1,12 +1,36 @@
-# Pusher HTTP API library for PHP5
+# Pusher HTTP PHP library
 
-**STATUS: WORK IN PROGRESS. See [TODO](TODO.md)**
+[![Build Status](https://travis-ci.org/pusher/pusher-http-php.svg?branch=master)](https://travis-ci.org/pusher/pusher-http-php)
 
-This is the next-gen official client library for our HTTP API.
-See http://pusher.com/docs/rest_api for the documentation of the API.
+PHP library for interacting with the Pusher HTTP API.
 
-Installation
-------------
+In order to use this library, you need to have an account on
+<https://pusher.com>. After registering, you will need the application
+credentials for your app.
+
+## Feature Support
+
+*Provide information regarding the features that the library supports. What it does and what it doesn't. This section can also form a table of contents to the information within the README*
+
+Feature                                    | Supported
+-------------------------------------------| :-------:
+Trigger event on single channel            | *&#10004; or &#10008;*
+Trigger event on multiple channels         | *&#10004; or &#10008;*
+Excluding recipients from events           | *&#10004; or &#10008;*
+Authenticating private channels            | *&#10004; or &#10008;*
+Authenticating presence channels           | *&#10004; or &#10008;*
+Get the list of channels in an application | *&#10004; or &#10008;*
+Get the state of a single channel          | *&#10004; or &#10008;*
+Get a list of users in a presence channel  | *&#10004; or &#10008;*
+WebHook validation                         | *&#10004; or &#10008;*
+Debugging & Logging                        | *&#10004; or &#10008;*
+HTTPS                                      | *&#10004; or &#10008;*
+HTTP Proxy configuration                   | *&#10004; or &#10008;*
+Cluster configuration                      | *&#10004; or &#10008;*
+
+Libraries can also offer additional helper functionality to ensure interactions with the HTTP API only occur if they will not be rejected e.g. [channel naming conventions][channel-names]. For information on the helper functionality that this library supports please see the **Helper Functionality** section.
+
+## Installation
 
 Use [composer](http://getcomposer.org) to install this bundle.
 
@@ -14,28 +38,40 @@ Use [composer](http://getcomposer.org) to install this bundle.
 $ composer require pusher/pusher-http
 ```
 
-Usage
------
+You need PHP 5.3+ to use this library.
+
+## Configuration
 
 ```php
-$pusher = new Pusher\Pusher(getenv('PUSHER_URL'));
-$pusher->trigger('channel_name', 'event_name', array('my' => 'data'));
+$pusher = Pusher::fromEnv();
 ```
 
-Configuration
--------------
+Or with App ID, key and secret:
 
 ```php
-
+$pusher_config = new Pusher::Config(array(
+  appId  => 'APP_ID',
+  key    => 'APP_KEY',
+  secret => 'SECRET_KEY'
+));
 ```
 
-Client authentication
----------------------
+### Additional options
+
+The library also supports configuration specialization by passing an options
+array to the various constructors:
+
+```php
+$pusher = Pusher::fromEnv('PUSHER_URL', options => (
+    'http_proxy' => "http://foobar",
+    'timeout' => "5s",
+);
+```
+
+## Usage
 
 
-Incoming WebHooks
------------------
-
+### Triggering events
 
 
 Compatibility
@@ -43,13 +79,6 @@ Compatibility
 
 This library follows [Semantic Versioning](http://semver.org).
 
-
-Framework integration
----------------------
-
-http://www.sitepoint.com/best-php-frameworks-2014/
-
-Laravel, Phalcon, Symphony2
 
 Publishing/Triggering events
 ----------------------------
